@@ -34,11 +34,29 @@ class HomeController extends Controller
     }
     public function getAdd(){
         $this->data['title'] = 'Them san pham';
+        $this->data['errorMessage'] ="Vui lòng kiểm tra lại dữ liệu";
         return view('Clients.add', $this -> data);
     }
 
     public function postAdd(Request $request){
-        dd($request);
+        $rule =['product_name' => 'required|min:6',
+        'product_price' => 'required|integer'];
+        // $message =
+        // [
+        //     'product_name.required'=>"Trường :attribute bắt buộc phải nhập",
+        //     'product_name.min' => "Tên sản phẩm không được nhỏ hơn :min kí tự",
+        //     'product_price.required' =>'Giá sản phẩm không được để trống',
+        //     'product_price.integer' => 'Giá sản phẩm bắt buộc là số'
+        // ];
+        $message = [
+            'required' => 'Trường :attribute bắt buộc phải nhập',
+            'min' => 'Trường :attribute không nhỏ hơn :min kí tự',
+            'integer' => 'Trường :attribute bắt buộc phải là số'
+        ];
+        $request->validate($rule, $message);
+        // xử lý việc thêm dữ liệu vào database
+
+
     }
 
     public function putAdd(Request $request){
@@ -60,7 +78,7 @@ class HomeController extends Controller
 
             // $fileName = basename($image);
             $fileName = 'image_'.uniqid().'jpg';
-            return response() -> download($image, $fileName,);
+            return response() -> download($image, $fileName);
             // return response()->streamDownload(function() use ($image){
             //     $imageContent = file_get_contents($image);
             //     echo $imageContent;
@@ -72,11 +90,8 @@ class HomeController extends Controller
             $file=trim($request->file);
 
             // $fileName = basename($image);
-            $fileName = 'tailieu_'.uniqid().'pdf';
-            $header = [
-                'Content-Type' => 'application/pdf'
-            ];
-            return response() -> download($file, $fileName,$header);
+            
+            return response() -> download($file);
             // return response()->streamDownload(function() use ($image){
             //     $imageContent = file_get_contents($image);
             //     echo $imageContent;
