@@ -53,4 +53,34 @@ class HomeController extends Controller
         ];
         return $contentArr;
     }
+
+    public function dowloadImage(Request $request){
+        if (!empty($request->image)){
+            $image=trim($request->image);
+
+            // $fileName = basename($image);
+            $fileName = 'image_'.uniqid().'jpg';
+            return response() -> download($image, $fileName,);
+            // return response()->streamDownload(function() use ($image){
+            //     $imageContent = file_get_contents($image);
+            //     echo $imageContent;
+            // }, $fileName);
+        }
+    }
+    public function dowloadDoc(Request $request){
+        if (!empty($request->file)){
+            $file=trim($request->file);
+
+            // $fileName = basename($image);
+            $fileName = 'tailieu_'.uniqid().'pdf';
+            $header = [
+                'Content-Type' => 'application/pdf'
+            ];
+            return response() -> download($file, $fileName,$header);
+            // return response()->streamDownload(function() use ($image){
+            //     $imageContent = file_get_contents($image);
+            //     echo $imageContent;
+            // }, $fileName);
+        }
+    }
 }

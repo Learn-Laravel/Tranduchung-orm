@@ -45,10 +45,18 @@ $message = "Thanh Cong";
     
         <!-- <x-input.button/>
         <x-forms.button/>     -->
-@endsection
+        <p><img src="https://www.baodanang.vn/dataimages/202403//original/images1729924_1.gif" alt=""></p>
+        <p><a href="{{route('downloadDoc').'?file='.public_path('storage/demo-pdf.pdf.txt')}}" class="btn btn-primary">Download tài nguyên</a></p>
+
+        @endsection
 
 @section('css')
-
+    <style>
+        img{
+            max-width: 100px;
+            height:auto;
+        }
+    </style>
 @endsection
 
 @section('Js')

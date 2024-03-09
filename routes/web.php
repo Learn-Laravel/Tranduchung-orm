@@ -81,3 +81,7 @@ Route::post('/demo-reponse-2', function(Request $request){
     }
     return redirect(route('demo-respone'))->with('mess', 'validate khon thanh cong');
 });
+
+// response dạng downlod file
+Route::get('/download-image', [HomeController::class,'dowloadImage'])->name('downloadImage');
+Route::get('/downloadDoc', [HomeController::class,'dowloadDoc'])->name('downloadDoc');
