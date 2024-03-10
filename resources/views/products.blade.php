@@ -8,7 +8,9 @@
 @endsection
 @section('content')
 <h1>San Pham</h1>
-
+@if (session('msg'))
+<div class="alert alert-success">{{session('msg')}}</div>
+@endif
 @push('scripts')
     <script>
         console.log('Push lan 2')

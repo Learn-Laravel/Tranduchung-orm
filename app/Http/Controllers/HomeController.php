@@ -1,17 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\ProductRequest;
 
+use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public $data = [];
-    public function index(){
+    public function index()
+    {
         $this->data['welcome'] = 'Hoc lap trinh tai <b>Unicode </b>';
-        
+
         $this->data['content'] = '<h3>Chuong 1: Nhap mon Laravel</h3>
         <p>Kien thuc 1</p>
         <p>Kien thuc 2</p>
@@ -26,73 +28,96 @@ class HomeController extends Controller
         $this->data['number'] = 1;
         $this->data['message'] = "thanh cong";
         $this->data['title'] = 'Dao tao lap trinh';
-        $this->data['message'] ='Dang ky tai khoan thanh cong';
-        return view('Clients.home', $this -> data);
+        $this->data['message'] = 'Dang ky tai khoan thanh cong';
+        return view('Clients.home', $this->data);
     }
-    public function products(){
+    public function products()
+    {
         $this->data['title'] = 'san pham';
-        return view('products', $this -> data);
+        return view('products', $this->data);
     }
-    public function getAdd(){
+    public function getAdd()
+    {
         $this->data['title'] = 'Them san pham';
-        $this->data['errorMessage'] ="Vui lòng kiểm tra lại dữ liệu";
-        return view('Clients.add', $this -> data);
+        $this->data['errorMessage'] = "Vui lòng kiểm tra lại dữ liệu";
+        return view('Clients.add', $this->data);
     }
 
-    public function postAdd(ProductRequest $request){
-        // $rule =['product_name' => 'required|min:6',
-        // 'product_price' => 'required|integer'];
+    public function postAdd(Request $request)
+    {
+        $rule = [
+            'product_name' => 'required|min:6',
+            'product_price' => 'required|integer'
+        ];
         // $message =
         // [
-        //     'product_name.required'=>"Trường :attribute bắt buộc phải nhập",
+        //     'product_name.required'=>"Tên sản phẩm bắt buộc phải nhập",
         //     'product_name.min' => "Tên sản phẩm không được nhỏ hơn :min kí tự",
         //     'product_price.required' =>'Giá sản phẩm không được để trống',
         //     'product_price.integer' => 'Giá sản phẩm bắt buộc là số'
         // ];
-        // $message = [
-        //     'required' => 'Trường :attribute bắt buộc phải nhập',
-        //     'min' => 'Trường :attribute không nhỏ hơn :min kí tự',
-        //     'integer' => 'Trường :attribute bắt buộc phải là số'
-        // ];
+        $message = [
+            'required' => 'Trường :attribute bắt buộc phải nhập',
+            'min' => 'Trường :attribute không nhỏ hơn :min kí tự',
+            'integer' => 'Trường :attribute bắt buộc phải là số'
+        ];
+        $attribute =[
+            'product_name' => 'Tên sản phẩm',
+            'product_price' => 'Giá sản phẩm'
+        ];
+        
         // $request->validate($rule, $message);
         // xử lý việc thêm dữ liệu vào database
-
-            dd($request->all());
+        $validator = Validator::make($request->all(), $rule, $message, $attribute);
+        if ($validator -> fails()){
+            // return 'Validate thất bại';
+            $validator->errors()->add('msg', 'Vui lòng kiểm tra lại dữ liệu');
+        }
+        else{
+            // return 'Validate thành công';
+            return redirect()->route('product')->with('msg', 'thanh cong');
+        }
+    //    $validator ->validate();
+        return back()->withErrors($validator);
     }
 
-    public function putAdd(Request $request){
+    public function putAdd(Request $request)
+    {
         return "Put";
         dd($request);
     }
-    public function getArr(){
+    public function getArr()
+    {
         $contentArr = [
-            'name'=> 'laravel',
-            'lesson' =>'khoa hoc lap trinh',
-            'academy'=> 'unicode'
+            'name' => 'laravel',
+            'lesson' => 'khoa hoc lap trinh',
+            'academy' => 'unicode'
         ];
         return $contentArr;
     }
 
-    public function dowloadImage(Request $request){
-        if (!empty($request->image)){
-            $image=trim($request->image);
+    public function dowloadImage(Request $request)
+    {
+        if (!empty($request->image)) {
+            $image = trim($request->image);
 
             // $fileName = basename($image);
-            $fileName = 'image_'.uniqid().'jpg';
-            return response() -> download($image, $fileName);
+            $fileName = 'image_' . uniqid() . 'jpg';
+            return response()->download($image, $fileName);
             // return response()->streamDownload(function() use ($image){
             //     $imageContent = file_get_contents($image);
             //     echo $imageContent;
             // }, $fileName);
         }
     }
-    public function dowloadDoc(Request $request){
-        if (!empty($request->file)){
-            $file=trim($request->file);
+    public function dowloadDoc(Request $request)
+    {
+        if (!empty($request->file)) {
+            $file = trim($request->file);
 
             // $fileName = basename($image);
-            
-            return response() -> download($file);
+
+            return response()->download($file);
             // return response()->streamDownload(function() use ($image){
             //     $imageContent = file_get_contents($image);
             //     echo $imageContent;
