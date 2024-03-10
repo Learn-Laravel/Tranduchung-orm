@@ -57,7 +57,7 @@ class HomeController extends Controller
         // $request->validate($rule, $message);
         // xử lý việc thêm dữ liệu vào database
 
-            dd($request);
+            dd($request->all());
     }
 
     public function putAdd(Request $request){

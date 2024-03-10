@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Requests;
-
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProductRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -27,11 +28,12 @@ class ProductRequest extends FormRequest
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            'product_name.required'=>":attribute bắt buộc phải nhập",
+            'product_name.required' => ":attribute bắt buộc phải nhập",
             'product_name.min' => ":attribute không được nhỏ hơn :min kí tự",
-            'product_price.required' =>':attribute không được để trống',
+            'product_price.required' => ':attribute không được để trống',
             'product_price.integer' => ':attribute bắt buộc là số'
         ];
     }
@@ -41,5 +43,26 @@ class ProductRequest extends FormRequest
             'product_name' => 'Tên sản phẩm',
             'product_price' => 'Giá sản phẩm'
         ];
+    }
+    protected function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($validator->errors()->count() > 0) {
+                $validator->errors()->add('msg', 'Đã có lỗi xảy ra,vui lòng kiểm tra lại');
+            }
+           
+        });
+    }
+    protected function prepareForValidation(){
+        $this->merge([
+            'create_at' => date('Y-m-d H:i:s'),
+        ]);
+    } 
+
+    protected function failedAuthorization()
+    {
+        // throw new AuthorizationException('BẠN KHÔNG CÓ QUYỀN TRUY CẬP VÌ BỊ CẤM');
+        // throw new HttpResponseException(redirect('/')->with('msg', 'Bạn không có quyền truy cập')->with('type', 'danger'));
+        throw new HttpResponseException(abort(404));
     }
 }
