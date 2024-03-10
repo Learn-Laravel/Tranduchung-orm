@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\ProductRequest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -38,9 +39,9 @@ class HomeController extends Controller
         return view('Clients.add', $this -> data);
     }
 
-    public function postAdd(Request $request){
-        $rule =['product_name' => 'required|min:6',
-        'product_price' => 'required|integer'];
+    public function postAdd(ProductRequest $request){
+        // $rule =['product_name' => 'required|min:6',
+        // 'product_price' => 'required|integer'];
         // $message =
         // [
         //     'product_name.required'=>"Trường :attribute bắt buộc phải nhập",
@@ -48,15 +49,15 @@ class HomeController extends Controller
         //     'product_price.required' =>'Giá sản phẩm không được để trống',
         //     'product_price.integer' => 'Giá sản phẩm bắt buộc là số'
         // ];
-        $message = [
-            'required' => 'Trường :attribute bắt buộc phải nhập',
-            'min' => 'Trường :attribute không nhỏ hơn :min kí tự',
-            'integer' => 'Trường :attribute bắt buộc phải là số'
-        ];
-        $request->validate($rule, $message);
+        // $message = [
+        //     'required' => 'Trường :attribute bắt buộc phải nhập',
+        //     'min' => 'Trường :attribute không nhỏ hơn :min kí tự',
+        //     'integer' => 'Trường :attribute bắt buộc phải là số'
+        // ];
+        // $request->validate($rule, $message);
         // xử lý việc thêm dữ liệu vào database
 
-
+            dd($request);
     }
 
     public function putAdd(Request $request){
