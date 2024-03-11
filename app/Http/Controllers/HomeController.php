@@ -47,8 +47,10 @@ class HomeController extends Controller
     public function postAdd(Request $request)
     {
         $rule = [
-            'product_name' => ['required','min:6', new Uppercase],
-            'product_price' => ['required','integer', new Uppercase]
+            'product_name' => ['required','min:6', function($attribute, $value, $fail){
+                isUppercase($value, 'Trường :attribute không hợp lệ', $fail);
+            }],
+            'product_price' => ['required','integer']
         ];
         // $message =
         // [
