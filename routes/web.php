@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,3 +86,6 @@ Route::post('/demo-reponse-2', function(Request $request){
 // response dạng downlod file
 Route::get('/download-image', [HomeController::class,'dowloadImage'])->name('downloadImage');
 Route::get('/downloadDoc', [HomeController::class,'dowloadDoc'])->name('downloadDoc');
+Route::prefix('users')->group(function(){
+    Route::get('/', [UsersController::class,'index']);
+});

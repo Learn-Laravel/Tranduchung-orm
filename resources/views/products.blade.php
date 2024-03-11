@@ -12,9 +12,10 @@
 <div class="alert alert-success">{{session('msg')}}</div>
 @endif
 @push('scripts')
-    <script>
-        console.log('Push lan 2')
-    </script>
+<script>
+    console.log('Push lan 2')
+</script>
+@endpush
 @endsection
 
 @section('css')
@@ -25,7 +26,7 @@
 
 @endsection
 @prepend('scripts')
-    <script>
-        console.log('Push lan 1')
-    </script>
+<script>
+    console.log('Push lan 1')
+</script>
 @endprepend
