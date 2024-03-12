@@ -25,5 +25,11 @@ class Users extends Model
         $data[] =$id ;
         return DB::update('UPDATE ' . $this->table . ' SET fullname=?, email=?, update_at=? WHERE id=?', $data);
     }
+    public function deleteUser($id){
+        return DB::delete('DELETE FROM ' . $this->table . ' where id = ?',[$id]);
+    }
+    public function statementUser($sql){
+        return DB::statement($sql);
+    }
 }
 

@@ -16,6 +16,8 @@ class UsersController extends Controller
     }
     public function index()
     {
+        $statement = $this->users->statementUser('DELETE FROM users');
+        dd($statement);
         $title = 'Danh sách người dùng';
         $userList = $this->users->getAllUser();
         return view('Clients.users.lists', compact('title', 'userList'));
@@ -92,4 +94,25 @@ class UsersController extends Controller
         $this->users->updateUser($dataUpdate, $id);
         return redirect()->route('users.edit', ['id' => $id])->with('msg', 'cap nhat nguoi dung thanh cong');
     }
+    public function delete($id=0){
+        if (!empty($id)) {
+            $userDetail = $this->users->getDetail($id);
+            if (!empty($userDetail[0])) {
+                $deleteStatus = $this->users->deleteUser($id);
+                if ($deleteStatus){
+                    $msg = 'Xoa nguoi dung thanh cong';
+                } else{
+                    $msg ='ban khong the xoa nguoi dung luc nay. VUi long thu lai';
+                }
+            }else{
+                $msg ='Người dùng không tồn tại';
+            }
+        } else {
+            $msg = 'Liên kết không tồn tại';
+        }
+
+        return redirect()->route('users.index')->with('msg', $msg);
+    }
 }
+    
+
