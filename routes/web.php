@@ -86,6 +86,8 @@ Route::post('/demo-reponse-2', function(Request $request){
 // response dạng downlod file
 Route::get('/download-image', [HomeController::class,'dowloadImage'])->name('downloadImage');
 Route::get('/downloadDoc', [HomeController::class,'dowloadDoc'])->name('downloadDoc');
-Route::prefix('users')->group(function(){
-    Route::get('/', [UsersController::class,'index']);
+Route::prefix('users')->name('users.')->group(function(){
+    Route::get('/', [UsersController::class,'index'])->name('index');
+    Route::get('/add', [UsersController::class,'add'])->name('add');
+    Route::post('/add', [UsersController::class,'postAdd'])->name('postAdd');
 });

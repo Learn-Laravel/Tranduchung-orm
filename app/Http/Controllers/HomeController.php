@@ -29,7 +29,7 @@ class HomeController extends Controller
         // ];
         // $this->data['number'] = 1;
         // $this->data['message'] = "thanh cong";
-        // $this->data['title'] = 'Dao tao lap trinh';
+        $this->data['title'] = 'Dao tao lap trinh';
         $this->data['message'] = 'Dang ky tai khoan thanh cong';
         // $users =DB::select('select*from users WHERE email =:email', [
         //     'email' => 'hung.tran@gmail.com'
