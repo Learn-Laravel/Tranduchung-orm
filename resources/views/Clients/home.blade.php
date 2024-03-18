@@ -53,6 +53,7 @@ $message = "Thanh Cong";
             <x-forms.button/>     -->
     <p><img src="https://www.baodanang.vn/dataimages/202403//original/images1729924_1.gif" alt=""></p>
     <p><a href="{{route('downloadDoc').'?file='.public_path('storage/demo-pdf.pdf.txt')}}" class="btn btn-primary">Download tài nguyên</a></p>
+    Hello, {{$name}}
 
 @endsection
 

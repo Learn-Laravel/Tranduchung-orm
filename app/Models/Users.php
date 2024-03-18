@@ -31,5 +31,48 @@ class Users extends Model
     public function statementUser($sql){
         return DB::statement($sql);
     }
+
+    public function learnQueryBuilder(){
+        // lấy bản ghi của table
+        $listUser = DB::table($this->table)->get();
+        // dd($listUser);
+
+        // lấy bản ghi đầu tiên của table(lấy thông tin chi tiết)
+        $deatil = DB::table($this->table)->first();
+        // dd($deatil);
+        // mỗi cột là một tham số các nhau bởi dấy phẩy, có thể sử dụng as để thay đổi tên cột, phải để các lệnh select ở trước get(), hoặc first()
+        $lists = DB::table($this->table)->select('email', 'fullname')->get();
+        // dd($lists);
+        // điều kiện =
+        // $listWhere = DB::table($this->table)
+        // ->select('email', 'fullname')
+        // ->where('id', 8)
+        // ->get();
+        // dd($listWhere);
+
+        // điều kiện lớn hơn '>'
+        // $listGreater = DB::table($this->table)
+        // ->select('email', 'fullname')
+        // ->where('id', '>', 8)
+        // ->get();
+        // dd($listGreater);
+        // diều kiện bé hơn '<'
+        $listLess = DB::table($this->table)
+        ->select('email', 'fullname', 'id')
+        // ->where('id', '<=', 8) điều kiện bé hơn hoặc bằng
+
+        // ->where('id', '<>', 8) so sanh khac nhau
+        // ->where([
+        //     ['id', '>=', 8],
+        //     ['id', '<=', 10]
+        // ])-> điều kiện AND
+
+        // điều kiên OR
+        ->where('id' ,8)
+        ->orWhere('id', 10)
+      
+        ->get();
+        dd($listLess);
+    }
 }
 
