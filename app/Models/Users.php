@@ -33,15 +33,17 @@ class Users extends Model
     }
 
     public function learnQueryBuilder(){
+        // Kiểm tra câu lệnh SQL C2
+        DB::enableQueryLog();
         // lấy bản ghi của table
-        $listUser = DB::table($this->table)->get();
+        // $listUser = DB::table($this->table)->get();
         // dd($listUser);
 
         // lấy bản ghi đầu tiên của table(lấy thông tin chi tiết)
-        $deatil = DB::table($this->table)->first();
+        // $deatil = DB::table($this->table)->first();
         // dd($deatil);
         // mỗi cột là một tham số các nhau bởi dấy phẩy, có thể sử dụng as để thay đổi tên cột, phải để các lệnh select ở trước get(), hoặc first()
-        $lists = DB::table($this->table)->select('email', 'fullname')->get();
+        // $lists = DB::table($this->table)->select('email', 'fullname')->get();
         // dd($lists);
         // điều kiện =
         // $listWhere = DB::table($this->table)
@@ -57,8 +59,9 @@ class Users extends Model
         // ->get();
         // dd($listGreater);
         // diều kiện bé hơn '<'
+        $id = 9;
         $listLess = DB::table($this->table)
-        ->select('email', 'fullname', 'id')
+        ->select('email', 'fullname', 'id', 'update_at')
         // ->where('id', '<=', 8) điều kiện bé hơn hoặc bằng
 
         // ->where('id', '<>', 8) so sanh khac nhau
@@ -68,11 +71,28 @@ class Users extends Model
         // ])-> điều kiện AND
 
         // điều kiên OR
-        ->where('id' ,8)
-        ->orWhere('id', 10)
+        // ->where('id' ,8)
+        // ->orWhere('id', 10)
+        // ->toSql(); Kiểm tra câu lệnh SQL C1
       
+        // ->where('id', 8)
+        // ->where(function($query) use($id) {
+        //     $query -> where('id', '<', $id) -> orWhere('id', '>', $id);
+        //     // $query -> orWhere('id', '>', 9);
+        // })
+        // -> where('fullname', 'like', '%Duc Hung%')
+
+        // tìm kiếm giá trị trong khoảng nào đó dùng whereBetween
+        // -> whereBetween('id', [7,9])
+        // tìm kiếm giá trị không nằm trong khoảng nào đó dùng whereBetween
+        // ->whereNotBetween('id', [7,9])
+        // ->whereNotIn('id', [7,9])
+        // ->whereNull('update_at')
+        ->whereNotNull('update_at')
         ->get();
-        // dd($listLess);
+        dd($listLess);
+        $sql =  DB::getQueryLog();
+        dd($sql);
     }
 }
 

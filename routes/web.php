@@ -95,12 +95,12 @@ Route::prefix('users')->name('users.')->group(function(){
     Route::get('/delete/{id}',[UsersController::class,'delete'])->name('delete');
 });
 
-Route::get('/demo', function(){
-    $tasks = [
-        ['name' => 'Task1'],
-        ['name' => 'Task2'],
-        ['name' => 'Task3'],
-        ['name' => 'Task4'],
-    ];
-    return view('Clients.demo-test', ['tasks' => $tasks]);
-})->name('demo-test');
+// Route::get('/demo', function(){
+//     $tasks = [
+//         ['name' => 'Task1'],
+//         ['name' => 'Task2'],
+//         ['name' => 'Task3'],
+//         ['name' => 'Task4'],
+//     ];
+//     return view('Clients.demo-test', ['tasks' => $tasks]);
+// })->name('demo-test');
