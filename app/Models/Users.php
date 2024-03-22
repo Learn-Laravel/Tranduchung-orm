@@ -59,9 +59,9 @@ class Users extends Model
         // ->get();
         // dd($listGreater);
         // diều kiện bé hơn '<'
-        $id = 9;
-        $listLess = DB::table($this->table)
-        ->select('email', 'fullname', 'id', 'update_at')
+        // $id = 9;
+        // $listLess = DB::table($this->table)
+        // ->select('email', 'fullname', 'id', 'update_at', 'create_at')
         // ->where('id', '<=', 8) điều kiện bé hơn hoặc bằng
 
         // ->where('id', '<>', 8) so sanh khac nhau
@@ -88,9 +88,27 @@ class Users extends Model
         // ->whereNotBetween('id', [7,9])
         // ->whereNotIn('id', [7,9])
         // ->whereNull('update_at')
-        ->whereNotNull('update_at')
+        // ->whereNotNull('update_at')
+
+        // Truy vấn Date, Month, Day, Year
+        // ->whereDate('update_at','2024-03-13')
+        // ->whereMonth('update_at', '03')
+        // ->whereDay('update_at', '13')
+        // ->whereYear('update_at', '2024')
+
+        // Truy vấn theo giá trị cột
+        // ->whereColumn('create_at','>', 'update_at')
+        // ->get();
+        // dd($listLess);
+
+        // Join bảng
+        $lists = DB::table('users') 
+        ->select('users.*', 'groups.name')
+        // -> join('groups', 'groups.id','=', 'users.group_id')
+        // -> leftJoin('groups', 'groups.id','=', 'users.group_id')
+        -> rightJoin('groups', 'groups.id','=', 'users.group_id')
         ->get();
-        dd($listLess);
+        dd($lists);
         $sql =  DB::getQueryLog();
         dd($sql);
     }
