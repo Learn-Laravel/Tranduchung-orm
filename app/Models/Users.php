@@ -11,28 +11,35 @@ class Users extends Model
 {
     use HasFactory;
     protected $table = 'users';
-    public function getAllUser(){
-        $users =DB::select('SELECT * FROM users ORDER BY create_at DESC');
-        return($users);
+    public function getAllUser()
+    {
+        $users = DB::select('SELECT * FROM users ORDER BY create_at DESC');
+        return ($users);
     }
-    public function addUser($data){
+    public function addUser($data)
+    {
         DB::insert('INSERT INTO users(fullname, email, create_at) VALUES (? ,? ,?)', $data);
     }
-    public function getDetail($id){
-        return DB::select('SELECT * FROM '. $this->table.' WHERE id = ?', [$id]);
+    public function getDetail($id)
+    {
+        return DB::select('SELECT * FROM ' . $this->table . ' WHERE id = ?', [$id]);
     }
-    public function updateUser($data,$id){
-        $data[] =$id ;
+    public function updateUser($data, $id)
+    {
+        $data[] = $id;
         return DB::update('UPDATE ' . $this->table . ' SET fullname=?, email=?, update_at=? WHERE id=?', $data);
     }
-    public function deleteUser($id){
-        return DB::delete('DELETE FROM ' . $this->table . ' where id = ?',[$id]);
+    public function deleteUser($id)
+    {
+        return DB::delete('DELETE FROM ' . $this->table . ' where id = ?', [$id]);
     }
-    public function statementUser($sql){
+    public function statementUser($sql)
+    {
         return DB::statement($sql);
     }
 
-    public function learnQueryBuilder(){
+    public function learnQueryBuilder()
+    {
         // Kiểm tra câu lệnh SQL C2
         DB::enableQueryLog();
         // lấy bản ghi của table
@@ -74,7 +81,7 @@ class Users extends Model
         // ->where('id' ,8)
         // ->orWhere('id', 10)
         // ->toSql(); Kiểm tra câu lệnh SQL C1
-      
+
         // ->where('id', 8)
         // ->where(function($query) use($id) {
         //     $query -> where('id', '<', $id) -> orWhere('id', '>', $id);
@@ -102,15 +109,31 @@ class Users extends Model
         // dd($listLess);
 
         // Join bảng
-        $lists = DB::table('users') 
-        ->select('users.*', 'groups.name')
-        // -> join('groups', 'groups.id','=', 'users.group_id')
-        // -> leftJoin('groups', 'groups.id','=', 'users.group_id')
-        -> rightJoin('groups', 'groups.id','=', 'users.group_id')
-        ->get();
+        $lists = DB::table('users')
+            // ->select('users.*', 'groups.name')
+            // -> join('groups', 'groups.id','=', 'users.group_id')
+            // -> leftJoin('groups', 'groups.id','=', 'users.group_id')
+            // -> rightJoin('groups', 'groups.id','=', 'users.group_id')
+            // Sắp xếp 1 cột  và nhiều cột
+            // ->orderBy('create_at', 'desc')
+            // ->orderBy('id', 'asc')
+
+            // Sắp xếp ngẫu nhiên
+            // ->inRandomOrder()
+
+            // Truy vấn theo nhóm
+            // ->select(DB::raw('count(id) as count_email'), 'email')
+            // ->groupBy('email')
+            // ->having('count_email' , '>=', '2')
+
+            // Giới hạn: {offset: lấy ra dữ liệu từ hàng mấy đó}
+            //    ->offset(1)
+            //    ->limit(2)
+            ->skip(2)
+            ->take(2)
+            ->get();
         dd($lists);
         $sql =  DB::getQueryLog();
         dd($sql);
     }
 }
-
