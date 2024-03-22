@@ -72,7 +72,7 @@ class Users extends Model
         ->orWhere('id', 10)
       
         ->get();
-        dd($listLess);
+        // dd($listLess);
     }
 }
 

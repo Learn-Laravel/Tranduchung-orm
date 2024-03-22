@@ -71,10 +71,10 @@ Route::get('/demo-response', function () {
     ->header('API-key', '1234');
 });
 // Response trả về dạng chuyển hướng(Ridirect)
-Route::get('/demo-reponse-2', function(){
+// Route::get('/demo-reponse-2', function(){
     
-    return view('Clients.demo-test');
-})->name('demo-respone');
+//     return view('Clients.demo-test');
+// })->name('demo-respone');
 Route::post('/demo-reponse-2', function(Request $request){
     if (!empty($request->username)){
         // return redirect(route('demo-respone'));
@@ -94,3 +94,13 @@ Route::prefix('users')->name('users.')->group(function(){
     Route::post('/update',[UsersController::class,'postEdit'])->name('postEdit');
     Route::get('/delete/{id}',[UsersController::class,'delete'])->name('delete');
 });
+
+Route::get('/demo', function(){
+    $tasks = [
+        ['name' => 'Task1'],
+        ['name' => 'Task2'],
+        ['name' => 'Task3'],
+        ['name' => 'Task4'],
+    ];
+    return view('Clients.demo-test', ['tasks' => $tasks]);
+})->name('demo-test');
