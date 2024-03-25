@@ -109,30 +109,66 @@ class Users extends Model
         // dd($listLess);
 
         // Join bảng
-        $lists = DB::table('users')
-            // ->select('users.*', 'groups.name')
-            // -> join('groups', 'groups.id','=', 'users.group_id')
-            // -> leftJoin('groups', 'groups.id','=', 'users.group_id')
-            // -> rightJoin('groups', 'groups.id','=', 'users.group_id')
-            // Sắp xếp 1 cột  và nhiều cột
-            // ->orderBy('create_at', 'desc')
-            // ->orderBy('id', 'asc')
+        // $lists = DB::table('users')
+        // ->select('users.*', 'groups.name')
+        // -> join('groups', 'groups.id','=', 'users.group_id')
+        // -> leftJoin('groups', 'groups.id','=', 'users.group_id')
+        // -> rightJoin('groups', 'groups.id','=', 'users.group_id')
+        // Sắp xếp 1 cột  và nhiều cột
+        // ->orderBy('create_at', 'desc')
+        // ->orderBy('id', 'asc')
 
-            // Sắp xếp ngẫu nhiên
-            // ->inRandomOrder()
+        // Sắp xếp ngẫu nhiên
+        // ->inRandomOrder()
 
-            // Truy vấn theo nhóm
-            // ->select(DB::raw('count(id) as count_email'), 'email')
-            // ->groupBy('email')
-            // ->having('count_email' , '>=', '2')
+        // Truy vấn theo nhóm
+        // ->select(DB::raw('count(id) as count_email'), 'email')
+        // ->groupBy('email')
+        // ->having('count_email' , '>=', '2')
 
-            // Giới hạn: {offset: lấy ra dữ liệu từ hàng mấy đó}
-            //    ->offset(1)
-            //    ->limit(2)
-            ->skip(2)
-            ->take(2)
-            ->get();
-        dd($lists);
+        // Giới hạn: {offset: lấy ra dữ liệu từ hàng mấy đó}
+        //    ->offset(1)
+        //    ->limit(2)
+        //     ->skip(2)
+        //     ->take(2)
+        //     ->get();
+        // dd($lists);
+        // INSERT DATA
+
+        // $status = DB::table('users')->insert([
+        //     'fullname' =>'Trần Đức Hùng',
+        //     'email' => 'tranduchung@gmail.com',
+        //     'group_id' => 1,
+        //     'create_at' => date('Y-m-d H:i:s')
+        // ]);
+        // dd($status);
+        // $lastId = DB::getPdo()->lastInsertId();
+        // $lastId = DB::table('users') ->insertGetId(
+        //     [
+        //             'fullname' =>'Trần Đức Hùng',
+        //             'email' => 'tranduchung@gmail.com',
+        //             'group_id' => 1,
+        //             'create_at' => date('Y-m-d H:i:s')
+        //         ]
+        //     );
+        // dd($lastId);
+
+        // UPDATE DATA
+        // $status = DB::table('users')
+        //     ->where('id', 20)
+        //     ->update([
+        //         'fullname' => 'Trần Đức Hoàn',
+        //         'email' => 'tranduchoan@gmail.com',
+        //         'update_at' => date('Y-m-d H:i:s')
+        //     ]);
+        // dd($status);
+
+        // DELETE DATA
+        // $status = DB::table('users') -> where('id', 20) -> delete();
+
+        // ĐẾM SỐ BẢN GHI
+        $count = DB::table('users')-> where('id','>', 10) ->count(); 
+        dd($count);
         $sql =  DB::getQueryLog();
         dd($sql);
     }
