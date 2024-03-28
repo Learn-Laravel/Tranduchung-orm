@@ -95,6 +95,7 @@ Route::prefix('users')->name('users.')->group(function(){
     Route::get('/delete/{id}',[UsersController::class,'delete'])->name('delete');
 });
 
+
 // Route::get('/demo', function(){
 //     $tasks = [
 //         ['name' => 'Task1'],
