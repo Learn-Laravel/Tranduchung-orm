@@ -40,12 +40,30 @@ class UsersController extends Controller
 
         }
         // echo $keywords;
+        // xử lí logic sắp xếp
+        $sortBy = $request->input('sort-by');
+        $sortType = $request->input('sort-type');
+        $allowSort = ['asc', 'desc'];
+        if (!empty($sortType) && in_array($sortType, $allowSort)){
+            if ($sortType == 'desc'){
+                $sortType ='asc';
+            } else{
+                $sortType ='desc';
+            }
+        } else{
+            $sortType ='asc';
+        }
+
+        $sortArr = [
+            'sortBy' => $sortBy,
+            'sortType' => $sortType
+        ];
         
         $title = 'Danh sách người dùng';
         // $this->users->learnQueryBuilder();
         $userList = $this->users->getAllUser($filters, $keywords);
         $groups = Group::getAll();
-        return view('Clients.users.lists', compact('title', 'userList', 'groups'));
+        return view('Clients.users.lists', compact('title', 'userList', 'groups', 'sortType', 'sortArr'));
     }
     public function add()
     {

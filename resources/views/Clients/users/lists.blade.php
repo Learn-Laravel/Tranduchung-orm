@@ -42,11 +42,11 @@
         <thead>
             <tr>
                 <th width="5%">STT</th>
-                <th>Tên</th>
-                <th>Email</th>
+                <th><a href="?sort-by=fullname&sort-type={{$sortType}}" class="text-decoration-none">Tên</a></th>
+                <th><a href="?sort-by=email&sort-type={{$sortType}}" class="text-decoration-none">Email</a></th>
                 <th>Group</th>
                 <th>Status</th>
-                <th width="20%">Thời gian</th>
+                <th width="20%"><a href="?sort-by=create_at&sort-type={{$sortType}}" class="text-decoration-none">Thời gian</a></th>
                 <th width="5%">Edit</th>
                 <th width="5%">Delete</th>
             </tr>
