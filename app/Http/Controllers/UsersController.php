@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use  App\Http\Requests\UsersRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -72,32 +72,9 @@ class UsersController extends Controller
         $groups = Group::getAll();
         return view('Clients.users.add', compact('title', 'groups'));
     }
-    public function postAdd(Request $request)
+    public function postAdd(UsersRequest $request)
     {
-        $request->validate(
-            [
-                'fullname' => 'required|min:5',
-                'email' => 'required|email|unique:users',
-                'group_id' => ['required', 'integer',function($attribute, $value, $fail){
-                    if ($value == 0){
-                        $fail('Bắt buộc phải chọn nhóm');
-                    }
-                }],
-                'status' => 'required|integer'
-
-            ],
-            [
-                'fullname.required' => 'Ho va ten bat buoc phai nhap',
-                'fullname.min' => 'Ho va ten bat buoc phai tu :min ky tu tro len',
-                'email.required' => 'Email bat buoc phai nhap',
-                'email.email' => 'Email khong dung dinh dang',
-                'email.unique' => 'Email đã tồn tại',
-                'group_id.required' =>'Trang thai bat buoc phai nhap',
-                'group_id.integer' => 'Bat buoc phai la so' ,
-                'status.required' => 'Status bat buoc phai nhap',
-                'status.integer' => 'Status bat buoc la so'          
-             ]
-        );
+        
         $dataInsert = [
             'fullname' => $request->fullname,
             'email' => $request->email,
@@ -111,7 +88,7 @@ class UsersController extends Controller
     public function getEdit(Request $request,$id = 0)
     {
         $title = "Cap Nhat Nguoi Dung";
-
+        $groups = Group::getAll();
         if (!empty($id)) {
             $userDetail = $this->users->getDetail($id);
             if (!empty($userDetail[0])) {
@@ -123,31 +100,20 @@ class UsersController extends Controller
         } else {
             return redirect()->route('users.index')->with('msg', 'Nguoi dung khong ton tai');
         }
-        return view('Clients.users.edit', compact('title', 'userDetail'));
+        return view('Clients.users.edit', compact('title', 'userDetail', 'groups'));
     }
-    public function postEdit(Request $request)
+    public function postEdit(UsersRequest $request)
     {
         $id = session('id');
         if (empty($id)){
             return back()->with('msg', 'Lien ket khong ton tai');
         }
-        $request->validate(
-            [
-                'fullname' => 'required|min:5',
-                'email' => 'required|email|unique:users,email,'.$id
-            ],
-            [
-                'fullname.required' => 'Ho va ten bat buoc phai nhap',
-                'fullname.min' => 'Ho va ten bat buoc phai tu :min ky tu tro len',
-                'email.required' => 'Email bat buoc phai nhap',
-                'email.email' => 'Email khong dung dinh dang',
-                'email.unique' => 'Email đã tồn tại'
-            ]
-        );
         $dataUpdate = [
-            $request->fullname,
-            $request->email,
-            date('Y-m-d H:i:s')
+            'fullname' => $request->fullname,
+            'email' => $request->email,
+            'group_id' => $request->group_id,
+            'status' => $request->status,
+            'update_at' => date('Y-m-d H:i:s')
         ];
         $this->users->updateUser($dataUpdate, $id);
         return redirect()->route('users.edit', ['id' => $id])->with('msg', 'cap nhat nguoi dung thanh cong');
