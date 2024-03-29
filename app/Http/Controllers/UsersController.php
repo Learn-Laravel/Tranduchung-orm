@@ -11,6 +11,7 @@ use App\Models\Group;
 class UsersController extends Controller
 {
     private $users;
+    const _PER_PAGE = 4;
     public function __construct()
     {
         $this->users = new Users;
@@ -61,7 +62,7 @@ class UsersController extends Controller
         
         $title = 'Danh sách người dùng';
         // $this->users->learnQueryBuilder();
-        $userList = $this->users->getAllUser($filters, $keywords);
+        $userList = $this->users->getAllUser($filters, $keywords,$sortArr, self::_PER_PAGE);
         $groups = Group::getAll();
         return view('Clients.users.lists', compact('title', 'userList', 'groups', 'sortType', 'sortArr'));
     }

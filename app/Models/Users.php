@@ -12,7 +12,7 @@ class Users extends Model
     use HasFactory;
     protected $table = 'users';
     
-    public function getAllUser($filters=[], $keywords = null, $sortByArr=null)
+    public function getAllUser($filters=[], $keywords = null, $sortByArr=null, $perPage = 0)
     {
         // DB::enableQueryLog();
         // $users = DB::select('SELECT * FROM users ORDER BY create_at DESC');
@@ -38,7 +38,11 @@ class Users extends Model
                 $query ->orWhere('email', 'like', '%'.$keywords.'%');
             });
         }
-        $users = $users->get();
+        if (!empty($perPage)){
+            $users = $users->paginate($perPage);
+        }else{
+            $users = $users->get(); 
+        }
         // $sql =  DB::getQueryLog();
         // dd($sql);
         return $users;
