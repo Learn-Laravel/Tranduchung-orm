@@ -69,27 +69,41 @@ class UsersController extends Controller
     public function add()
     {
         $title = "Them Nguoi Dung";
-        return view('Clients.users.add', compact('title'));
+        $groups = Group::getAll();
+        return view('Clients.users.add', compact('title', 'groups'));
     }
     public function postAdd(Request $request)
     {
         $request->validate(
             [
                 'fullname' => 'required|min:5',
-                'email' => 'required|email|unique:users'
+                'email' => 'required|email|unique:users',
+                'group_id' => ['required', 'integer',function($attribute, $value, $fail){
+                    if ($value == 0){
+                        $fail('Bắt buộc phải chọn nhóm');
+                    }
+                }],
+                'status' => 'required|integer'
+
             ],
             [
                 'fullname.required' => 'Ho va ten bat buoc phai nhap',
                 'fullname.min' => 'Ho va ten bat buoc phai tu :min ky tu tro len',
                 'email.required' => 'Email bat buoc phai nhap',
                 'email.email' => 'Email khong dung dinh dang',
-                'email.unique' => 'Email đã tồn tại'
-            ]
+                'email.unique' => 'Email đã tồn tại',
+                'group_id.required' =>'Trang thai bat buoc phai nhap',
+                'group_id.integer' => 'Bat buoc phai la so' ,
+                'status.required' => 'Status bat buoc phai nhap',
+                'status.integer' => 'Status bat buoc la so'          
+             ]
         );
         $dataInsert = [
-            $request->fullname,
-            $request->email,
-            date('Y-m-d H:i:s')
+            'fullname' => $request->fullname,
+            'email' => $request->email,
+            'group_id' => $request->group_id,
+            'status' => $request->status,
+            'create_at' => date('Y-m-d H:i:s')
         ];
         $this->users->addUser($dataInsert);
         return redirect()->route('users.index')->with('msg', "Them nguoi dung thanh cong");
