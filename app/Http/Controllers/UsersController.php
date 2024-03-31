@@ -34,7 +34,7 @@ class UsersController extends Controller
             $group_id = $request->group_id;
             
             $filters [] = ['users.group_id', '=', $group_id];
-            // dd($filter);
+            dd($filters);
         }
         if (!empty($request->keywords)){
             $keywords = $request->keywords;
