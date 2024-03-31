@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UsersController;
 
 /*
@@ -95,7 +96,9 @@ Route::prefix('users')->name('users.')->group(function(){
     Route::get('/delete/{id}',[UsersController::class,'delete'])->name('delete');
 });
 
-
+Route::prefix('posts')->name('posts.')->group(function(){
+    Route::get('/', [PostController::class,'index'])-> name('index');
+});
 // Route::get('/demo', function(){
 //     $tasks = [
 //         ['name' => 'Task1'],
